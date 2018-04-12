@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <!-- Required meta tags http://xandeadx.ru/blog/javascript/473-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+<title>Test</title> 
+</head>
+<body>
+
+<div id="app2">
+<header>
+<form @submit.prevent="Out">
+	<div class="conteiner ">
+		<div class="row">
+			<div class="col">
+				<h3>Welcome, {{ currentUser }}!</h3>
+				<a href="edit.html">Create Ad</a>
+				<button type="submit" class="btn btn-primary mb-5">Logout</button>
+			</div>
+		</div>
+	</div>
+</form>
+</header>
+<form @submit.prevent="New">
+<div class="conteiner ">
+		<div class="row ">
+			<div class="col">
+				<div class="formGroup">
+					<label for="title">Title:</label>
+					<input type="text" class="formCreate" id="title" placeholder="Enter title" required>
+				</div>	
+				<div class="formGroup">
+					<label for="description ">Description :</label>
+					<textarea class="formCreate" id="description" placeholder="Enter description" rows="15">
+
+					</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button type="submit" class="btn btn-primary bthCreate">Create</button>
+			</div>
+		</div>
+	</div>
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script type="text/javascript">
+	var  titles=localStorage.titles ? JSON.parse(localStorage.titles) : [], authorNames=localStorage.authorNames ? JSON.parse(localStorage.authorNames) : [], descriptions=localStorage.descriptions ? JSON.parse(localStorage.descriptions) : [], datetimes=localStorage.datetimes ? JSON.parse(localStorage.datetimes) : [];
+	new Vue({
+  			el: '#app2',
+  			data: {
+  				currentUser: localStorage.getItem("currentUser")
+  			},
+  			methods: {
+  				Out(){
+		            this.chek=false;
+		            this.currentUser="";
+		            localStorage.setItem("currentUser","");
+		            location.href = 'index.html';
+        		},
+  				New(){
+
+  					localStorage.setItem('thisTitle', document.getElementById('title').value);
+  					localStorage.setItem('thisDescription', document.getElementById('description').value);
+  					localStorage.setItem('thisDatetime', new Date().toISOString() );
+  					localStorage.setItem('thisAuthorName', localStorage.getItem('currentUser'));
+  					titles.push(document.getElementById('title').value);
+  					descriptions.push(document.getElementById('description').value);
+  					datetimes.push(localStorage.getItem('thisDatetime'));
+  					authorNames.push(localStorage.getItem('currentUser'));
+  					localStorage.titles = JSON.stringify(titles);
+  					localStorage.descriptions = JSON.stringify(descriptions);
+  					localStorage.datetimes = JSON.stringify(datetimes);
+  					localStorage.authorNames = JSON.stringify(authorNames);
+
+  					location.href = 'ad.html';
+  				}
+  			}
+		})
+</script>
+</body>
+</html>
+

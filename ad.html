@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <!-- Required meta tags http://xandeadx.ru/blog/javascript/473-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+<title>Test</title> 
+</head>
+<body>
+<div id="app3">
+<header>
+<form @submit.prevent="Out" >
+	<div class="conteiner ">
+		<div class="row">
+			<div class="col">
+				<h3>Welcome, {{ currentUser }}!</h3>
+				<a href="edit.html">Create Ad</a>
+				<button type="submit" class="btn btn-primary mb-5">Logout</button>
+			</div>
+		</div>
+	</div>
+</form>
+</header>
+<div style="padding: 20px;">
+	<my-component :can-del="currentUser"></my-component>
+	<button type="submit" class="btn btn-primary" onclick="location.href = 'index.html'; count++; localStorage.setItem('count',count)">Create</button>
+</div>
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script type="text/javascript">
+	var Child = {
+    	props: ['canDel'],
+  		template: '<div><button type="button" class="btn btn-danger" v-if="canDel == authorName" v-on:click="del">Delete</button><h1 class="title">{{ title }}</h1> <span class="description">{{ description }}</span>	<div class="conteiner"><div class="row"><div class="col"><span class="authorName">{{authorName}}</span>	<span class="datetime">{{datetime}}</span></div></div></div></div>',
+  		data(){
+  			return {
+  				title: localStorage.getItem('thisTitle'),
+  				authorName: localStorage.getItem('thisAuthorName'),
+  				description: localStorage.getItem('thisDescription'),
+  				datetime: localStorage.getItem('thisDatetime'),
+  			}
+  		}
+	}
+	var count=localStorage.getItem("count")?localStorage.getItem("count"):0;
+	new Vue({
+  			el: '#app3',
+  			data: {
+  				currentUser: localStorage.getItem("currentUser"),
+  				
+  			},
+  			 components: {
+						    'my-component': Child
+						  },
+			 methods:{
+		del(){
+           location.href = 'index.html';
+          },
+			 	  Out(){
+		            this.chek=false;
+		            this.currentUser="";
+		            localStorage.setItem("currentUser","");
+		            location.href = 'index.html';
+        		}
+			 }
+		})
+	</script>
+</body>
+</html>
